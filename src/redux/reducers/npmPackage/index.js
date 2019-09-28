@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import signIn from './signIn';
+import suggestions from './suggestions';
 
 export default combineReducers({
-  signIn,
+  suggestions,
 });

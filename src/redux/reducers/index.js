@@ -1,7 +1,7 @@
-import auth from './auth';
+import npmPackage from './npmPackage';
 import persist from './persist';
 
 export default {
-  AUTH: auth,
+  NPMPACKAGE: npmPackage,
   PERSIST: persist,
 };

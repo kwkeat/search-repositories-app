@@ -1,8 +1,7 @@
 import {
-  takeLatest, all, fork, put, take, select, call,
+  takeLatest, all, fork, put, take, call,
 } from 'redux-saga/effects';
 import Actions from 'actions';
-import Selectors from 'selectors';
 import AppNavigationService from 'navigator/app/AppNavigationService';
 
 function* rehydrate() {
@@ -11,12 +10,7 @@ function* rehydrate() {
 
 function* redirectApp() {
   yield take(Actions.FINISH_REHYDRATE);
-  const token = yield select(Selectors.getToken);
-  if (token !== null) {
-    yield call(AppNavigationService.navigate, 'Dashboard');
-  } else {
-    yield call(AppNavigationService.navigate, 'Auth');
-  }
+  yield call(AppNavigationService.navigate, 'DependencyExplorerScreen');
 }
 
 function* watchRehydrate() {

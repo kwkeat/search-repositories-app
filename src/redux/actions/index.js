@@ -1,9 +1,9 @@
-import auth from './auth';
 import common from './common';
 import persist from './persist';
+import npmPackage from './npmPackage';
 
 export default {
-  ...auth,
   ...common,
   ...persist,
+  ...npmPackage,
 };

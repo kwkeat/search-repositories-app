@@ -1,30 +1,33 @@
 import Actions from 'actions';
 
-const getDefaultState = () => ({ isLoading: false, error: null });
+const getDefaultState = () => ({ isLoading: false, error: null, data: [] });
 
-function signIn(state, action) {
+function fetchSuggestions(state, action) {
   if (typeof state === 'undefined') {
     return getDefaultState();
   }
   switch (action.type) {
-    case Actions.SIGN_IN:
+    case Actions.FETCH_SUGGESTIONS:
       return {
         isLoading: true,
         error: null,
+        data: [],
       };
-    case Actions.SIGN_IN_SUCCESS:
+    case Actions.FETCH_SUGGESTIONS_SUCCESS:
       return {
         isLoading: false,
         error: null,
+        data: action.data,
       };
-    case Actions.SIGN_IN_FAIL:
+    case Actions.FETCH_SUGGESTIONS_FAIL:
       return {
         isLoading: false,
         error: action.error,
+        data: [],
       };
     default:
       return state;
   }
 }
 
-export default signIn;
+export default fetchSuggestions;

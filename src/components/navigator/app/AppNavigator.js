@@ -1,12 +1,10 @@
-import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import Initial from 'containers/Initial';
-import Auth from 'containers/Auth';
-import Dashboard from 'containers/Dashboard';
+import DependencyExplorerScreen from 'containers/DependencyExplorerScreen';
 
 const routeConfiguration = {
   Initial: { screen: Initial },
-  Auth: { screen: Auth },
-  Dashboard: { screen: Dashboard },
+  DependencyExplorerScreen: { screen: DependencyExplorerScreen },
 };
 
 const AppNavigator = createSwitchNavigator(routeConfiguration);
