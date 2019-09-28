@@ -7,8 +7,6 @@ import * as api from 'api';
 function* fetchSuggestions({ packageName }) {
   try {
     const response = yield call(api.fetchSuggestions, packageName);
-    console.log(response);
-    console.log(response.data);
     if (response.status === 200) {
       const nameList = response.data.map(packageList => packageList.name);
       yield put(Actions.fetchSuggestionsSuccess(nameList));

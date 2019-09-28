@@ -23,21 +23,12 @@ class DependencyExplorerScreen extends Component {
   }
 
   onSearchPress = () => {
-    const { suggestionList } = this.props;
+    const { fetchInfo } = this.props;
     const { searchValue } = this.state;
 
-    if (suggestionList.some(suggestion => suggestion === searchValue)) {
-      console.log('same');
-    } else {
-      Alert.alert(
-        'Package name does not exist',
-        'Please input a different package name.',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    }
+    fetchInfo(searchValue, this.callbackFail);
   }
+
 
   onChangeText = (value) => {
     const { fetchSuggestions } = this.props;
@@ -45,9 +36,21 @@ class DependencyExplorerScreen extends Component {
     fetchSuggestions(value);
   }
 
+  callbackFail = () => {
+    Alert.alert(
+      'Package name does not exist',
+      'Please input a different package name.',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+    );
+  }
+
   render() {
     const { isLoading, suggestionList } = this.props;
     const { searchValue } = this.state;
+
+    const filteredSuggestionList = suggestionList.filter(suggestion => suggestion !== searchValue);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -55,16 +58,17 @@ class DependencyExplorerScreen extends Component {
         <View style={styles.contentContainer}>
           <Autocomplete
             containerStyle={styles.autocomplete}
-            data={suggestionList}
+            data={filteredSuggestionList}
             defaultValue={searchValue}
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={value => this.onChangeText(value)}
-            renderItem={({ item, i }) => (
-              <TouchableOpacity onPress={() => this.setState({ query: item })}>
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={this.onSearchPress} key={item}>
                 <Text style={styles.listText}>{item}</Text>
               </TouchableOpacity>
             )}
+            keyExtractor={(item, i) => i.toString()}
           />
           <Button
             icon={(
@@ -116,6 +120,7 @@ const styles = StyleSheet.create({
 
 DependencyExplorerScreen.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
+  fetchInfo: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   suggestionList: PropTypes.array,
 };
@@ -131,6 +136,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = {
   fetchSuggestions: Actions.fetchSuggestions,
+  fetchInfo: Actions.fetchInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DependencyExplorerScreen);

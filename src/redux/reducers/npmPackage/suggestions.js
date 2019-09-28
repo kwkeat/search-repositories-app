@@ -13,6 +13,12 @@ function fetchSuggestions(state, action) {
         error: null,
         data: [],
       };
+    case Actions.CLEAR_SUGGESTIONS:
+      return {
+        isLoading: false,
+        error: null,
+        data: [],
+      };
     case Actions.FETCH_SUGGESTIONS_SUCCESS:
       return {
         isLoading: false,
