@@ -8,13 +8,12 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   Alert,
 } from 'react-native';
 import * as Colors from 'themes/colors';
 import { normalize } from 'utils/size';
 import Autocomplete from 'react-native-autocomplete-input';
-import { Button } from 'react-native-elements';
+import { Button, Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class DependencyExplorerScreen extends Component {
@@ -22,11 +21,11 @@ class DependencyExplorerScreen extends Component {
     searchValue: '',
   }
 
-  onSearchPress = () => {
+  onSearchPress = (value) => {
     const { fetchInfo } = this.props;
     const { searchValue } = this.state;
 
-    fetchInfo(searchValue, this.callbackFail);
+    fetchInfo(value || searchValue, this.callbackFail);
   }
 
 
@@ -53,8 +52,10 @@ class DependencyExplorerScreen extends Component {
     const filteredSuggestionList = suggestionList.filter(suggestion => suggestion !== searchValue);
 
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>DEPENDENCY EXPLORER</Text>
+      <View style={styles.container}>
+        <Header
+          centerComponent={{ text: 'PACKAGE OVERVIEW', style: styles.header }}
+        />
         <View style={styles.contentContainer}>
           <Autocomplete
             containerStyle={styles.autocomplete}
@@ -63,8 +64,9 @@ class DependencyExplorerScreen extends Component {
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={value => this.onChangeText(value)}
+            listStyle={styles.listStyle}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={this.onSearchPress} key={item}>
+              <TouchableOpacity onPress={() => this.onSearchPress(item)} key={item}>
                 <Text style={styles.listText}>{item}</Text>
               </TouchableOpacity>
             )}
@@ -82,10 +84,10 @@ class DependencyExplorerScreen extends Component {
             title="SEARCH"
             type="outline"
             titleStyle={styles.buttonLabel}
-            onPress={this.onSearchPress}
+            onPress={() => this.onSearchPress('')}
           />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -95,21 +97,24 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     flex: 1,
   },
-  title: {
-    textAlign: 'center',
+  header: {
     fontSize: normalize(20),
     fontWeight: 'bold',
-    marginVertical: normalize(20),
   },
   contentContainer: {
-    marginHorizontal: normalize(20),
+    margin: normalize(20),
     flexDirection: 'row',
   },
   autocomplete: {
     flex: 1,
   },
+  listStyle: {
+    margin: 0,
+    paddingHorizontal: normalize(5),
+  },
   listText: {
     paddingVertical: normalize(3),
+    width: '100%',
     fontSize: normalize(16),
     color: Colors.gray,
   },
